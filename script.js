@@ -10,6 +10,18 @@ window.onload = function () {
 
     spawnMario();*/
 
+    $.getJSON("objects.json", function (json) {
+        console.log(json[0]);
+        var newObject = document.createElement("DIV");
+        document.querySelector(".screen").appendChild(newObject);
+        newObject.style.width = json[0].dw + "px";
+        newObject.style.height = json[0].dh + "px";
+        newObject.style.background = "url('objects.png') -" + json[0].sx + "px " + json[0].sy + "px";
+        newObject.style.position = "absolute";
+        newObject.style.top = json[0].dy + "px";
+        newObject.style.left = json[0].dx + "px";
+    });
+
     document.onkeydown = function (event) {
         switch (event.key) {
             case "ArrowLeft":

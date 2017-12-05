@@ -1,0 +1,22 @@
+{
+  "name": "mario",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bh-full-stack/Mario.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bh-full-stack/Mario/issues"
+  },
+  "homepage": "https://github.com/bh-full-stack/Mario#readme",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}
