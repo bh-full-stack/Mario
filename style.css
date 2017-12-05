@@ -3,6 +3,7 @@ h1 {
 }
 
 .screen {
+    background: url("background.png") 0 0 no-repeat;
     position: relative;
     width: 240px;
     height: 224px;
@@ -12,6 +13,8 @@ h1 {
 
 .mario {
     position: absolute;
+    top: 184px;
+    left: 20px;
     width: 16px;
     height: 16px;
     background: url("mario.png") 0 56px;
