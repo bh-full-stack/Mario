@@ -3,14 +3,15 @@ h1 {
 }
 
 .screen {
+    position: relative;
     width: 240px;
     height: 224px;
-    background: ;
     margin: auto;
     border: 1px solid black;
 }
 
 .mario {
+    position: absolute;
     width: 16px;
     height: 16px;
     background: url("mario.png") 0 56px;
