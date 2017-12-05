@@ -1,4 +1,8 @@
-div {
+h1 {
+    text-align: center;
+}
+
+.screen {
     width: 240px;
     height: 224px;
     background: ;
@@ -6,6 +10,8 @@ div {
     border: 1px solid black;
 }
 
-h1 {
-    text-align: center;
+.mario {
+    width: 16px;
+    height: 16px;
+    background: url("mario.png") 0 56px;
 }
