@@ -3,12 +3,21 @@ h1 {
 }
 
 .screen {
-    background: url("background.png") 0 0 no-repeat;
+
     position: relative;
+    overflow: hidden;
     width: 240px;
     height: 224px;
     margin: auto;
     border: 1px solid black;
+}
+
+.map {
+    width: 3384px;
+    height: 224px;
+    background: url("background.png") 0 0 no-repeat;
+    position: absolute;
+
 }
 
 .mario {
