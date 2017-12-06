@@ -12,27 +12,19 @@ window.onload = function () {
     var arrowLeft = false;
     var arrowRight = false;
     var arrowUp = false;
+    var arrowDown = false;
 
-    function collisionDetection (direction) {
-        switch(direction) {
-            case "left":
-                for (var i=0; i < objectsXcoord.length; i++) {
-                    if (objectsXcoord[i] + objectsWidth[i] == marioLeft - backgroundPosition) {
-                        if ((objectsYcoord[i] <= marioTop) && (objectsYcoord[i] + objectsHeight[i] >= marioTop)) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case "right":
-                for (var i=0; i < objectsXcoord.length; i++) {
-                    if (objectsXcoord[i] == marioLeft + 16 -backgroundPosition) {
-                        if ((objectsYcoord[i] <= marioTop) && (objectsYcoord[i] + objectsHeight[i] >= marioTop)) {
-                            return true;
-                        }
-                    }
-                }
+    var jumpStart = 185;
+    var jumpFlag = false;
+    var fallFlag = false;
 
+    function collisionDetection () {
+        for (var i=0; i < objectsXcoord.length; i++) {
+            if ((marioLeft + 16 - backgroundPosition >= objectsXcoord[i]) && (marioLeft - backgroundPosition <= objectsXcoord[i] + objectsWidth[i])) {
+                if ((marioTop + 16 >= objectsYcoord[i]) && (marioTop <= objectsYcoord[i] + objectsHeight[i])) {
+                    return true;
+                }
+            } 
         }
         return false;
     }
@@ -70,6 +62,12 @@ window.onload = function () {
             case "ArrowRight":
                 arrowRight = true;
                 break;
+            case "ArrowUp":
+                arrowUp = true;
+                break;
+            case "ArrowDown":
+                arrowDown = true;
+                break;
         }
     };
     document.onkeyup = function (event) {
@@ -80,32 +78,101 @@ window.onload = function () {
             case "ArrowRight":
                 arrowRight = false;
                 break;
+            case "ArrowUp":
+                arrowUp = false;
+                break;
+            case "ArrowDown":
+                arrowDown = false;
+                break;
         }
     };
 
     setInterval(function() {
         if (arrowLeft) {
-            if (!collisionDetection("left")) {
-                if (marioLeft > 0) {
-                    marioLeft -= 2;
-                }
-                if (marioLeft < 48 && backgroundPosition < 0) {
-                    marioLeft = 48;
-                    backgroundPosition += 2;
-                }
-            }
-        }
-        if (arrowRight) {
-            if (!collisionDetection("right")) {
-                if (marioLeft < 224) {
+
+            if (marioLeft > 0) {
+                marioLeft -= 2;
+                if (collisionDetection()) {
                     marioLeft += 2;
                 }
-                if (marioLeft > 176 && backgroundPosition > -3144) {
-                    marioLeft = 176;
-                    backgroundPosition -= 2;
+            }
+            if (marioLeft < 48 && backgroundPosition < 0) {
+                marioLeft = 48;
+                backgroundPosition += 2;
+            }
+
+        }
+        if (arrowRight) {
+
+            if (marioLeft < 224) {
+                marioLeft += 2;
+                if (collisionDetection()) {
+                    marioLeft -= 2;
+                }
+            }
+            if (marioLeft > 176 && backgroundPosition > -3144) {
+                marioLeft = 176;
+                backgroundPosition -= 2;
+            }
+
+        }
+        if (arrowUp) {
+            if (!jumpFlag && !fallFlag) {
+                jumpStart = marioTop;
+                jumpFlag = true;
+            }
+            if (jumpFlag && !fallFlag) {
+                if (marioTop + 16 > jumpStart - 54) {
+                    marioTop -= 2;
+                    if (collisionDetection()) {
+                        marioTop += 2;
+                        fallFlag = true;
+                    }
+                } else {
+                    fallFlag = true;
+                }
+            }
+            if (fallFlag) {
+                if (marioTop < 185) {
+                    marioTop += 2;
+                }
+                if (collisionDetection()) {
+                    marioTop -= 2;
+                    fallFlag = false;
+                    jumpFlag = true;
+                    jumpStart = marioTop;
+                }
+                if (marioTop === 185) {
+                    fallFlag = false;
+                }
+            }
+        } else {
+            jumpFlag = false;
+            fallFlag = true;
+            if (fallFlag) {
+                if (marioTop < 185) {
+                    marioTop += 2;
+                }
+                if (collisionDetection()) {
+                    marioTop -= 2;
+                    fallFlag = false;
+                }
+                if (marioTop === 185) {
+                    fallFlag = false;
                 }
             }
         }
+/*        if (arrowDown) {
+            if (marioTop<185) {
+                marioTop += 2;
+            }
+            if (collisionDetection()) {
+                marioTop -= 2;
+            }
+        }
+*/
+
+        document.querySelector(".mario").style.top = marioTop + "px";
         document.querySelector(".mario").style.left = marioLeft + "px";
         document.querySelector(".map").style.left = backgroundPosition + "px";
     }, 25);
