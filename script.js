@@ -7,6 +7,7 @@ window.onload = function () {
     var objectsYcoord = [];
     var objectsWidth = [];
     var objectsHeight = [];
+    var objectsType = [];
 
     function collisionDetection (direction) {
         switch(direction) {
@@ -47,6 +48,11 @@ window.onload = function () {
             objectsYcoord.push(jsonObject.dy);
             objectsWidth.push(jsonObject.dw);
             objectsHeight.push(jsonObject.dh);
+            if (jsonObject.type == undefined) {
+                objectsType.push("undefined");
+            } else {
+                objectsType.push(jsonObject.type);
+            }
             newObject.style.background = "url('objects.png') -" + jsonObject.sx + "px " + jsonObject.sy + "px";
         });
 
@@ -77,6 +83,8 @@ window.onload = function () {
                 }
                 break;
         }
+        console.log(marioLeft - backgroundPosition);
+        console.log(marioTop + 16);
         document.querySelector(".mario").style.left = marioLeft + "px";
         document.querySelector(".map").style.left = backgroundPosition + "px";
     };
