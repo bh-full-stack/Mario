@@ -9,6 +9,10 @@ window.onload = function () {
     var objectsHeight = [];
     var objectsType = [];
 
+    var arrowLeft = false;
+    var arrowRight = false;
+    var arrowUp = false;
+
     function collisionDetection (direction) {
         switch(direction) {
             case "left":
@@ -61,31 +65,48 @@ window.onload = function () {
     document.onkeydown = function (event) {
         switch (event.key) {
             case "ArrowLeft":
-                if (!collisionDetection("left")) {
-                    if (marioLeft > 0) {
-                        marioLeft -= 2;
-                    }
-                    if (marioLeft < 48 && backgroundPosition < 0) {
-                        marioLeft = 48;
-                        backgroundPosition += 2;
-                    }
-                }
+                arrowLeft = true;
                 break;
             case "ArrowRight":
-                if (!collisionDetection("right")) {
-                    if (marioLeft < 224) {
-                        marioLeft += 2;
-                    }
-                    if (marioLeft > 176 && backgroundPosition > -3144) {
-                        marioLeft = 176;
-                        backgroundPosition -= 2;
-                    }
-                }
+                arrowRight = true;
                 break;
         }
-        console.log(marioLeft - backgroundPosition);
-        console.log(marioTop + 16);
+    };
+    document.onkeyup = function (event) {
+        switch (event.key) {
+            case "ArrowLeft":
+                arrowLeft = false;
+                break;
+            case "ArrowRight":
+                arrowRight = false;
+                break;
+        }
+    };
+
+    setInterval(function() {
+        if (arrowLeft) {
+            if (!collisionDetection("left")) {
+                if (marioLeft > 0) {
+                    marioLeft -= 2;
+                }
+                if (marioLeft < 48 && backgroundPosition < 0) {
+                    marioLeft = 48;
+                    backgroundPosition += 2;
+                }
+            }
+        }
+        if (arrowRight) {
+            if (!collisionDetection("right")) {
+                if (marioLeft < 224) {
+                    marioLeft += 2;
+                }
+                if (marioLeft > 176 && backgroundPosition > -3144) {
+                    marioLeft = 176;
+                    backgroundPosition -= 2;
+                }
+            }
+        }
         document.querySelector(".mario").style.left = marioLeft + "px";
         document.querySelector(".map").style.left = backgroundPosition + "px";
-    };
+    }, 25);
 };
