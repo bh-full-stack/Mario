@@ -18,13 +18,48 @@ window.onload = function () {
     var jumpFlag = false;
     var fallFlag = false;
 
-    function collisionDetection () {
-        for (var i=0; i < objectsXcoord.length; i++) {
-            if ((marioLeft + 16 - backgroundPosition >= objectsXcoord[i]) && (marioLeft - backgroundPosition <= objectsXcoord[i] + objectsWidth[i])) {
-                if ((marioTop + 16 >= objectsYcoord[i]) && (marioTop <= objectsYcoord[i] + objectsHeight[i])) {
+    function collisionDetection() {
+        var marioRightSide = marioLeft + 16 - backgroundPosition;
+        var marioLeftSide = marioLeft - backgroundPosition;
+        var marioHead = marioTop;
+        var marioFoot = marioTop + 16;
+
+        var objectRightSide;
+        var objectLeftSide;
+        var objectTop;
+        var objectBottom;
+
+        var hitWithBlocksLeft;
+        var hitWithBlocksRight;
+        var overTheBlock;
+        var underTheBlock;
+
+        for (var i = 0; i < objectsXcoord.length; i++) {
+            // Object's sides
+            objectRightSide = objectsXcoord[i] + objectsWidth[i];
+            objectLeftSide = objectsXcoord[i];
+            objectTop = objectsYcoord[i];
+            objectBottom = objectsYcoord[i] + objectsHeight[i];
+
+            // Hit with verticals
+            hitWithBlocksLeft = marioRightSide >= objectLeftSide;
+            hitWithBlocksRight = marioLeftSide <= objectRightSide;
+
+            // Hit with horizontals (inverse, because calculate from top)
+            overTheBlock = marioHead <= objectBottom;
+            underTheBlock = marioFoot >= objectTop;
+
+            if ((hitWithBlocksLeft && hitWithBlocksRight)) {
+                if (overTheBlock && underTheBlock) {
+                    //console.log("Horizontal: ", jumpFlag, fallFlag);
+                    if (jumpFlag && !fallFlag) {
+                        console.log("Hit head to the block");
+                    } else {
+                        console.log("On the block");
+                    }
                     return true;
                 }
-            } 
+            }
         }
         return false;
     }
@@ -87,7 +122,7 @@ window.onload = function () {
         }
     };
 
-    setInterval(function() {
+    setInterval(function () {
         if (arrowLeft) {
 
             if (marioLeft > 0) {
@@ -131,6 +166,8 @@ window.onload = function () {
                 } else {
                     fallFlag = true;
                 }
+            } else {
+                jumpStart = marioTop;
             }
             if (fallFlag) {
                 if (marioTop < 185) {
@@ -140,7 +177,6 @@ window.onload = function () {
                     marioTop -= 2;
                     fallFlag = false;
                     jumpFlag = true;
-                    jumpStart = marioTop;
                 }
                 if (marioTop === 185) {
                     fallFlag = false;
@@ -162,15 +198,15 @@ window.onload = function () {
                 }
             }
         }
-/*        if (arrowDown) {
-            if (marioTop<185) {
-                marioTop += 2;
-            }
-            if (collisionDetection()) {
-                marioTop -= 2;
-            }
-        }
-*/
+        /*        if (arrowDown) {
+                    if (marioTop<185) {
+                        marioTop += 2;
+                    }
+                    if (collisionDetection()) {
+                        marioTop -= 2;
+                    }
+                }
+        */
 
         document.querySelector(".mario").style.top = marioTop + "px";
         document.querySelector(".mario").style.left = marioLeft + "px";
