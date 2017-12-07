@@ -12,18 +12,20 @@ window.onload = function () {
     var arrowLeft = false;
     var arrowRight = false;
     var arrowUp = false;
-    var arrowDown = false;
 
     var jumpStart = 185;
     var jumpFlag = false;
     var fallFlag = false;
 
-    function collisionDetection () {
-        for (var i=0; i < objectsXcoord.length; i++) {
-            if ((marioLeft + 16 - backgroundPosition >= objectsXcoord[i]) && (marioLeft - backgroundPosition <= objectsXcoord[i] + objectsWidth[i])) {
-                if ((marioTop + 16 >= objectsYcoord[i]) && (marioTop <= objectsYcoord[i] + objectsHeight[i])) {
-                    return true;
-                }
+    function hasCollision() {
+        for (var i = 0; i < objectsXcoord.length; i++) {
+            if (
+                (marioLeft - backgroundPosition + 16 >= objectsXcoord[i]) &&
+                (marioLeft - backgroundPosition <= objectsXcoord[i] + objectsWidth[i]) &&
+                (marioTop + 16 >= objectsYcoord[i]) &&
+                (marioTop <= objectsYcoord[i] + objectsHeight[i])
+            ) {
+                return true;
             } 
         }
         return false;
@@ -44,11 +46,7 @@ window.onload = function () {
             objectsYcoord.push(jsonObject.dy);
             objectsWidth.push(jsonObject.dw);
             objectsHeight.push(jsonObject.dh);
-            if (jsonObject.type == undefined) {
-                objectsType.push("undefined");
-            } else {
-                objectsType.push(jsonObject.type);
-            }
+            objectsType.push(jsonObject.type);
             newObject.style.background = "url('objects.png') -" + jsonObject.sx + "px " + jsonObject.sy + "px";
         });
 
@@ -65,9 +63,6 @@ window.onload = function () {
             case "ArrowUp":
                 arrowUp = true;
                 break;
-            case "ArrowDown":
-                arrowDown = true;
-                break;
         }
     };
     document.onkeyup = function (event) {
@@ -81,18 +76,17 @@ window.onload = function () {
             case "ArrowUp":
                 arrowUp = false;
                 break;
-            case "ArrowDown":
-                arrowDown = false;
-                break;
         }
     };
 
-    setInterval(function() {
+    setInterval(marioMovement, 25);
+
+    function marioMovement() {
         if (arrowLeft) {
 
             if (marioLeft > 0) {
                 marioLeft -= 2;
-                if (collisionDetection()) {
+                if (hasCollision()) {
                     marioLeft += 2;
                 }
             }
@@ -106,7 +100,7 @@ window.onload = function () {
 
             if (marioLeft < 224) {
                 marioLeft += 2;
-                if (collisionDetection()) {
+                if (hasCollision()) {
                     marioLeft -= 2;
                 }
             }
@@ -124,7 +118,7 @@ window.onload = function () {
             if (jumpFlag && !fallFlag) {
                 if (marioTop + 16 > jumpStart - 54) {
                     marioTop -= 2;
-                    if (collisionDetection()) {
+                    if (hasCollision()) {
                         marioTop += 2;
                         fallFlag = true;
                     }
@@ -138,7 +132,7 @@ window.onload = function () {
                 if (marioTop < 185) {
                     marioTop += 2;
                 }
-                if (collisionDetection()) {
+                if (hasCollision()) {
                     marioTop -= 2;
                     fallFlag = false;
                     jumpFlag = true;
@@ -154,7 +148,7 @@ window.onload = function () {
                 if (marioTop < 185) {
                     marioTop += 2;
                 }
-                if (collisionDetection()) {
+                if (hasCollision()) {
                     marioTop -= 2;
                     fallFlag = false;
                 }
@@ -163,9 +157,8 @@ window.onload = function () {
                 }
             }
         }
-
         document.querySelector(".mario").style.top = marioTop + "px";
         document.querySelector(".mario").style.left = marioLeft + "px";
         document.querySelector(".map").style.left = backgroundPosition + "px";
-    }, 25);
+    }
 };
