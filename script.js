@@ -131,6 +131,8 @@ window.onload = function () {
                 } else {
                     fallFlag = true;
                 }
+            } else {
+                jumpStart = marioTop;
             }
             if (fallFlag) {
                 if (marioTop < 185) {
@@ -140,7 +142,6 @@ window.onload = function () {
                     marioTop -= 2;
                     fallFlag = false;
                     jumpFlag = true;
-                    jumpStart = marioTop;
                 }
                 if (marioTop === 185) {
                     fallFlag = false;
@@ -162,15 +163,6 @@ window.onload = function () {
                 }
             }
         }
-/*        if (arrowDown) {
-            if (marioTop<185) {
-                marioTop += 2;
-            }
-            if (collisionDetection()) {
-                marioTop -= 2;
-            }
-        }
-*/
 
         document.querySelector(".mario").style.top = marioTop + "px";
         document.querySelector(".mario").style.left = marioLeft + "px";
