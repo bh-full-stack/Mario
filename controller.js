@@ -5,6 +5,7 @@ var arrowUp = false;
 window.onload = function () {
 
     world.init();
+    goomba.init();
 
     document.onkeydown = function (event) {
         switch (event.key) {
@@ -43,7 +44,7 @@ window.onload = function () {
         if (arrowRight) {
             mario.moveRight();
         }
-        if (arrowUp) {
+        if (arrowUp && !mario.isDead) {
             mario.jump();
         } else {
             mario.fall();

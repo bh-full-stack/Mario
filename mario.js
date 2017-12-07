@@ -4,6 +4,16 @@ var mario = {
     jumpStart: 185,
     jumpFlag: false,
     fallFlag: false,
+    isDead: false,
+    respawn: function () {
+        mario.top = 185;
+        mario.left = 20;
+        mario.jumpStart = 185;
+        mario.jumpFlag = false;
+        mario.fallFlag = false;
+        mario.isDead = false;
+        world.backgroundPosition = 0;
+    },
     hasCollision: function() {
         for (var i = 0; i < world.objectsXcoord.length; i++) {
             if (
@@ -12,9 +22,32 @@ var mario = {
                 (mario.top + 16 >= world.objectsYcoord[i]) &&
                 (mario.top <= world.objectsYcoord[i] + world.objectsHeight[i])
             ) {
+                if (world.objectsType[i] == "hole") {
+                    mario.isDead = true;
+                    return false;
+                } 
                 return true;
             } 
         }
+
+        for (var j = 0; j < goomba.xCoord.length; j++) {
+            if (
+                (mario.left - world.backgroundPosition + 16 >= goomba.xCoord[j]) &&
+                (mario.left - world.backgroundPosition <= goomba.xCoord[j] + goomba.width[j]) &&
+                (mario.top + 16 >= goomba.yCoord[j]) &&
+                (mario.top <= goomba.yCoord[j] + goomba.height[j])
+            ) {
+                if(!mario.jumpFlag && mario.fallFlag && (mario.top < 178)) {
+                    document.querySelector("#goomba" + j).remove();
+                    goomba.xCoord[j] = 0;
+                    goomba.yCoord[j] = 0;
+                } else {
+                    setTimeout(mario.respawn, 250);
+                    return false;
+                }
+            }
+        }
+
         return false;
     },
     moveLeft: function() {
@@ -84,8 +117,14 @@ var mario = {
                 mario.top -= 2;
                 mario.fallFlag = false;
             }
-            if (mario.top === 185) {
+            if (mario.top === 185 && !mario.isDead) {
                 mario.fallFlag = false;
+            }
+            else if (mario.isDead) {
+                mario.top += 2;
+                if (mario.top >= 224) {
+                    mario.respawn();
+                }
             }
         }
     }
