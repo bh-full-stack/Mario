@@ -4,8 +4,8 @@ var goomba = {
     width: [],
     height: [],
     direction: [],
-    move: function() {
-        setInterval(function() {
+    move: function () {
+        setInterval(function () {
 
             for (var i = 0; i < goomba.xCoord.length; i++) {
                 for (var j = 0; j < world.objectsXcoord.length; j++) {
@@ -45,7 +45,7 @@ var goomba = {
 
         }, 40)
     },
-    init: function() {
+    init: function () {
         $.getJSON("enemies.json", function (json) {
             json.forEach(function (jsonObject, index) {
                 var newEnemy = document.createElement("DIV");
@@ -57,6 +57,7 @@ var goomba = {
                 newEnemy.style.background = 
                     "url('img/enemies.png') -" + jsonObject.SX + "px " + jsonObject.SY + "px";
                 newEnemy.id = "goomba" + index;
+                newEnemy.className = "goomba";
                 document.querySelector(".map").appendChild(newEnemy);
 
                 goomba.xCoord.push(jsonObject.DX);

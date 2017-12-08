@@ -20,11 +20,53 @@ h1 {
 
 }
 
-.mario {
+#mario {
     position: absolute;
     top: 185px;
     left: 20px;
     width: 16px;
     height: 16px;
-    background: url("img/mario.png") 0 56px;
+    background-image: url("img/mario.png");
+}
+
+.mario--face--right {
+    background-position: -18px 57px;
+}
+
+.mario--move--right {
+    background-position: -18px 57px;
+    animation: mario--right .2s steps(2) infinite;
+}
+
+.mario--face--left {
+    background-position: -18px 27px;
+}
+
+.mario--move--left {
+    background-position: -18px 27px;
+    animation: mario--left .2s steps(2) infinite;
+}
+
+.mario--right--up {
+    background-position: -74px 57px;
+}
+
+.mario--left--up {
+    background-position: -74px 27px;
+}
+
+.goomba {
+    animation: goomba-play .8s steps(2) infinite;
+}
+
+@keyframes mario--right {
+    100% { background-position: -54px 57px; }
+}
+
+@keyframes mario--left {
+    100% { background-position: -54px 27px; }
+}
+
+@keyframes goomba-play {
+    100% { background-position: -32px; }
 }

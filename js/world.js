@@ -5,7 +5,7 @@ var world = {
     objectsWidth: [],
     objectsHeight: [],
     objectsType: [],
-    init: function() {
+    init: function () {
         $.getJSON("objects.json", function (json) {
             json.forEach(function (jsonObject) {
                 var newObject = document.createElement("DIV");

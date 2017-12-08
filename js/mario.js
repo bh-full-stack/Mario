@@ -1,10 +1,31 @@
 var mario = {
     top: 185,
     left: 20,
+    domElement: undefined,
+    faceRight: true,
     jumpStart: 185,
     jumpFlag: false,
     fallFlag: false,
     isDead: false,
+    init: function() {
+        mario.domElement = document.querySelector("#mario");
+        mario.domElement.className = "mario--face--right"
+    },
+    currentAnimation: function () {
+        if (arrowRight) {
+            mario.domElement.className = mario.jumpFlag ? "mario--right--up" : "mario--move--right";
+            mario.faceRight = true;
+        } else if (arrowLeft) {
+            mario.domElement.className = mario.jumpFlag ? "mario--left--up" : "mario--move--left";
+            mario.faceRight = false;
+        } else if (arrowUp) {
+            mario.domElement.className = mario.faceRight ? "mario--right--up" : "mario--left--up";
+        } else if (mario.faceRight) {
+            mario.domElement.className = "mario--face--right";
+        } else {
+            mario.domElement.className = "mario--face--left";                
+        }
+    },
     respawn: function () {
         mario.top = 185;
         mario.left = 20;
@@ -14,7 +35,7 @@ var mario = {
         mario.isDead = false;
         world.backgroundPosition = 0;
     },
-    hasCollision: function() {
+    hasCollision: function () {
         for (var i = 0; i < world.objectsXcoord.length; i++) {
             if (
                 (mario.left - world.backgroundPosition + 16 >= world.objectsXcoord[i]) &&
@@ -50,7 +71,7 @@ var mario = {
 
         return false;
     },
-    moveLeft: function() {
+    moveLeft: function () {
         if (mario.left > 0) {
             mario.left -= 2;
             if (mario.hasCollision()) {
@@ -62,7 +83,7 @@ var mario = {
             world.backgroundPosition += 2;
         }
     }, 
-    moveRight: function() {
+    moveRight: function () {
         if (mario.left < 224) {
             mario.left += 2;
             if (mario.hasCollision()) {
@@ -74,7 +95,7 @@ var mario = {
             world.backgroundPosition -= 2;
         }
     }, 
-    jump: function() {
+    jump: function () {
         if (!mario.jumpFlag && !mario.fallFlag) {
             mario.jumpStart = mario.top;
             mario.jumpFlag = true;
@@ -106,7 +127,7 @@ var mario = {
             }
         }
     },
-    fall: function() {
+    fall: function () {
         mario.jumpFlag = false;
         mario.fallFlag = true;
         if (mario.fallFlag) {

@@ -5,6 +5,7 @@ var arrowUp = false;
 window.onload = function () {
 
     world.init();
+    mario.init();
     goomba.init();
     goomba.move();
 
@@ -50,8 +51,9 @@ window.onload = function () {
         } else {
             mario.fall();
         }
-        document.querySelector(".mario").style.top = mario.top + "px";
-        document.querySelector(".mario").style.left = mario.left + "px";
+        mario.currentAnimation();
+        mario.domElement.style.top = mario.top + "px";
+        mario.domElement.style.left = mario.left + "px";
         document.querySelector(".map").style.left = world.backgroundPosition + "px";
     }
 };
