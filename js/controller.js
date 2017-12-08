@@ -6,6 +6,7 @@ window.onload = function () {
 
     world.init();
     goomba.init();
+    goomba.move();
 
     document.onkeydown = function (event) {
         switch (event.key) {

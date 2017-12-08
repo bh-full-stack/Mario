@@ -15,7 +15,7 @@ h1 {
 .map {
     width: 3384px;
     height: 224px;
-    background: url("background.png") 0 0 no-repeat;
+    background: url("img/background.png") 0 0 no-repeat;
     position: absolute;
 
 }
@@ -26,5 +26,5 @@ h1 {
     left: 20px;
     width: 16px;
     height: 16px;
-    background: url("mario.png") 0 56px;
+    background: url("img/mario.png") 0 56px;
 }

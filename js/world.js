@@ -15,7 +15,7 @@ var world = {
                 newObject.style.width = jsonObject.dw + "px";
                 newObject.style.height = jsonObject.dh + "px";
                 newObject.style.background = 
-                    "url('objects.png') -" + jsonObject.sx + "px " + jsonObject.sy + "px";
+                    "url('img/objects.png') -" + jsonObject.sx + "px " + jsonObject.sy + "px";
                 document.querySelector(".map").appendChild(newObject);
 
                 world.objectsXcoord.push(jsonObject.dx);
