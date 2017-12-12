@@ -55,8 +55,8 @@ h1 {
     background-position: -74px 27px;
 }
 
-.goomba {
-    animation: goomba-play .8s steps(2) infinite;
+.goombas {
+    animation: goombas-play .8s steps(2) infinite;
 }
 
 @keyframes mario--right {
@@ -67,6 +67,6 @@ h1 {
     100% { background-position: -54px 27px; }
 }
 
-@keyframes goomba-play {
+@keyframes goombas-play {
     100% { background-position: -32px; }
 }

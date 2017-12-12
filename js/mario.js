@@ -1,4 +1,5 @@
 var mario = {
+    interval: undefined,
     top: 185,
     left: 20,
     domElement: undefined,
@@ -7,9 +8,32 @@ var mario = {
     jumpFlag: false,
     fallFlag: false,
     isDead: false,
+    isDying: false,
     init: function() {
         mario.domElement = document.querySelector("#mario");
-        mario.domElement.className = "mario--face--right"
+        mario.domElement.className = "mario--face--right";
+        mario.respawn();
+    },
+    heartBeat: function() {
+        if (mario.isDead) {
+            mario.respawn();
+            return;
+        }
+        if (arrowLeft) {
+            mario.moveLeft();
+        }
+        if (arrowRight) {
+            mario.moveRight();
+        }
+        if (arrowUp && !mario.isDead) {
+            mario.jump();
+        } else {
+            mario.fall();
+        }
+        mario.currentAnimation();
+        mario.domElement.style.top = mario.top + "px";
+        mario.domElement.style.left = mario.left + "px";
+        document.querySelector(".map").style.left = world.backgroundPosition + "px";
     },
     currentAnimation: function () {
         if (arrowRight) {
@@ -27,49 +51,56 @@ var mario = {
         }
     },
     respawn: function () {
-        mario.top = 185;
-        mario.left = 20;
-        mario.jumpStart = 185;
-        mario.jumpFlag = false;
-        mario.fallFlag = false;
-        mario.isDead = false;
-        world.backgroundPosition = 0;
+        clearInterval(mario.interval);
+        setTimeout(function() {
+            mario.top = 185;
+            mario.left = 20;
+            mario.jumpStart = 185;
+            mario.jumpFlag = false;
+            mario.fallFlag = false;
+            mario.isDead = false;
+            mario.isDying = false;
+            world.backgroundPosition = 0;
+
+            goombas.reset();
+            mario.interval = setInterval(mario.heartBeat, 25);
+        }, 250);
     },
     hasCollision: function () {
-        for (var i = 0; i < world.objectsXcoord.length; i++) {
-            if (
-                (mario.left - world.backgroundPosition + 16 >= world.objectsXcoord[i]) &&
-                (mario.left - world.backgroundPosition <= world.objectsXcoord[i] + world.objectsWidth[i]) &&
-                (mario.top + 16 >= world.objectsYcoord[i]) &&
-                (mario.top <= world.objectsYcoord[i] + world.objectsHeight[i])
-            ) {
-                if (world.objectsType[i] == "hole") {
-                    mario.isDead = true;
-                    return false;
-                } 
-                return true;
-            } 
-        }
-
-        for (var j = 0; j < goomba.xCoord.length; j++) {
-            if (
-                (mario.left - world.backgroundPosition + 16 >= goomba.xCoord[j]) &&
-                (mario.left - world.backgroundPosition <= goomba.xCoord[j] + goomba.width[j]) &&
-                (mario.top + 16 >= goomba.yCoord[j]) &&
-                (mario.top <= goomba.yCoord[j] + goomba.height[j])
-            ) {
-                if(!mario.jumpFlag && mario.fallFlag && (mario.top < 178)) {
-                    document.querySelector("#goomba" + j).remove();
-                    goomba.xCoord[j] = 0;
-                    goomba.yCoord[j] = 0;
-                } else {
-                    setTimeout(mario.respawn, 250);
-                    return false;
+        if (!mario.isDead) {
+            for (var i = 0; i < world.objectsXcoord.length; i++) {
+                if (
+                    (mario.left - world.backgroundPosition + 16 >= world.objectsXcoord[i]) &&
+                    (mario.left - world.backgroundPosition <= world.objectsXcoord[i] + world.objectsWidth[i]) &&
+                    (mario.top + 16 >= world.objectsYcoord[i]) &&
+                    (mario.top <= world.objectsYcoord[i] + world.objectsHeight[i])
+                ) {
+                    if (world.objectsType[i] == "hole") {
+                        mario.isDying = true;
+                        return false;
+                    }
+                    return true;
                 }
             }
+            for (var j = 0; j < goombas.xCoord.length; j++) {
+                if (
+                    (mario.left - world.backgroundPosition + 16 >= goombas.xCoord[j]) &&
+                    (mario.left - world.backgroundPosition <= goombas.xCoord[j] + goombas.width[j]) &&
+                    (mario.top + 16 >= goombas.yCoord[j]) &&
+                    (mario.top <= goombas.yCoord[j] + goombas.height[j])
+                ) {
+                    if (!mario.jumpFlag && mario.fallFlag && (mario.top < 178)) {
+                        document.querySelector("#goombas" + j).remove();
+                        goombas.xCoord[j] = 0;
+                        goombas.yCoord[j] = 0;
+                    } else {
+                        mario.isDead = true;
+                        return false;
+                    }
+                }
+            }
+            return false;
         }
-
-        return false;
     },
     moveLeft: function () {
         if (mario.left > 0) {
@@ -138,13 +169,12 @@ var mario = {
                 mario.top -= 2;
                 mario.fallFlag = false;
             }
-            if (mario.top === 185 && !mario.isDead) {
+            if (mario.top === 185 && !mario.isDying) {
                 mario.fallFlag = false;
-            }
-            else if (mario.isDead) {
+            } else if (mario.isDying) {
                 mario.top += 2;
                 if (mario.top >= 224) {
-                    mario.respawn();
+                    mario.isDead = true;
                 }
             }
         }

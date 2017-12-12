@@ -6,8 +6,7 @@ window.onload = function () {
 
     world.init();
     mario.init();
-    goomba.init();
-    goomba.move();
+    goombas.init();
 
     document.onkeydown = function (event) {
         switch (event.key) {
@@ -36,24 +35,4 @@ window.onload = function () {
                 break;
         }
     };
-
-    setInterval(marioMovement, 25);
-
-    function marioMovement() {
-        if (arrowLeft) {
-            mario.moveLeft();
-        }
-        if (arrowRight) {
-            mario.moveRight();
-        }
-        if (arrowUp && !mario.isDead) {
-            mario.jump();
-        } else {
-            mario.fall();
-        }
-        mario.currentAnimation();
-        mario.domElement.style.top = mario.top + "px";
-        mario.domElement.style.left = mario.left + "px";
-        document.querySelector(".map").style.left = world.backgroundPosition + "px";
-    }
 };
