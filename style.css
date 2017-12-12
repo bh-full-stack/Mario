@@ -47,16 +47,20 @@ h1 {
     animation: mario--left .2s steps(2) infinite;
 }
 
-.mario--right--up {
+.mario--jump--right {
     background-position: -74px 57px;
 }
 
-.mario--left--up {
+.mario--jump--left {
     background-position: -74px 27px;
 }
 
 .goombas {
     animation: goombas-play .8s steps(2) infinite;
+}
+
+.goombas--dead {
+    background-position: -32px !important;
 }
 
 @keyframes mario--right {

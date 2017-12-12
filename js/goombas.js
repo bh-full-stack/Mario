@@ -62,6 +62,14 @@ var goombas = {
         }
 
     },
+    die: function (id) {
+        document.querySelector("#goombas" + id).className = "goombas--dead";
+        goombas.xCoord[id] = undefined;
+        goombas.yCoord[id] = undefined;
+        setTimeout( function () {
+            document.querySelector("#goombas" + id).remove();
+        }, 250);
+    },
     reset: function () {
         clearInterval(goombas.interval);
 

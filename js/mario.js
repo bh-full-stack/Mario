@@ -37,17 +37,17 @@ var mario = {
     },
     currentAnimation: function () {
         if (arrowRight) {
-            mario.domElement.className = mario.jumpFlag ? "mario--right--up" : "mario--move--right";
+            mario.domElement.className = mario.jumpFlag || mario.fallFlag ? "mario--jump--right" : "mario--move--right";
             mario.faceRight = true;
         } else if (arrowLeft) {
-            mario.domElement.className = mario.jumpFlag ? "mario--left--up" : "mario--move--left";
+            mario.domElement.className = mario.jumpFlag || mario.fallFlag ? "mario--jump--left" : "mario--move--left";
             mario.faceRight = false;
         } else if (arrowUp) {
-            mario.domElement.className = mario.faceRight ? "mario--right--up" : "mario--left--up";
+            mario.domElement.className = mario.faceRight ? "mario--jump--right" : "mario--jump--left";
         } else if (mario.faceRight) {
             mario.domElement.className = "mario--face--right";
         } else {
-            mario.domElement.className = "mario--face--left";                
+            mario.domElement.className = "mario--face--left";
         }
     },
     respawn: function () {
@@ -90,9 +90,7 @@ var mario = {
                     (mario.top <= goombas.yCoord[j] + goombas.height[j])
                 ) {
                     if (!mario.jumpFlag && mario.fallFlag && (mario.top < 178)) {
-                        document.querySelector("#goombas" + j).remove();
-                        goombas.xCoord[j] = 0;
-                        goombas.yCoord[j] = 0;
+                        goombas.die(j);
                     } else {
                         mario.isDead = true;
                         return false;
