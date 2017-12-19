@@ -9,6 +9,7 @@ window.onload = function () {
     goombas.init();
 
     document.onkeydown = function (event) {
+        saveStartTime();
         switch (event.key) {
             case "ArrowLeft":
                 arrowLeft = true;

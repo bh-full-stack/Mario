@@ -9,6 +9,7 @@ var mario = {
     fallFlag: false,
     isDead: false,
     isDying: false,
+    hasMoved: false,
     init: function() {
         mario.domElement = document.querySelector("#mario");
         mario.domElement.className = "mario--face--right";
@@ -60,9 +61,11 @@ var mario = {
             mario.fallFlag = false;
             mario.isDead = false;
             mario.isDying = false;
+            mario.hasMoved = false;
             world.backgroundPosition = 0;
 
             goombas.reset();
+            scoreReset();
             mario.interval = setInterval(mario.heartBeat, 25);
         }, 250);
     },
@@ -124,6 +127,10 @@ var mario = {
             world.backgroundPosition -= 2;
         } else if (world.backgroundPosition == -3144) {
             document.querySelector(".victory").style.display = "block";
+            if (startTime > endTime) {
+                endTime = Date.now();
+                calculateScore();
+            }
         }
     }, 
     jump: function () {
