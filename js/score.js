@@ -1,31 +1,37 @@
-var score = 600;
-var startTime;
-var endTime = 0;
-var overtime;
-var penalty;
+var score = {
+    points: 600,
+    startTime: 0,
+    endTime: 0,
+    overtime: 0,
+    penalty: 0,
 
-function gainPointsPerKill() {
-    score += 100;
-    console.log(score);
-}
+    gainPointsPerKill: function() {
+        score.points += 100;
+    },
 
-function scoreReset() {
-    score = 600;
-}
+    reset: function() {
+        score.points = 600;
+    },
 
-function saveStartTime() {
-    if (!mario.hasMoved) {
-        startTime = Date.now();
-        mario.hasMoved = true;
+    saveStartTime: function () {
+        if (!mario.hasMoved) {
+            score.startTime = Date.now();
+            mario.hasMoved = true;
+        }
+    },
+
+    calculateScore: function() {
+        score.endTime = Date.now();
+        score.overtime = (score.endTime - score.startTime) / 1000 - 42;
+        score.penalty = score.overtime * 20;
+        score.points -= Math.floor(score.penalty);
+        if (score.points <= 0) {
+            score.points = 0;
+        }
+        document.querySelector('#score').textContent = score.points.toString();
+    },
+
+    hasGameEnded: function () {
+        return score.startTime > score.endTime;
     }
-}
-
-function calculateScore() {
-    overtime = (endTime - startTime) / 1000 - 42;
-    penalty = overtime * 20;
-    score -= Math.floor(penalty);
-    if (score <= 0) {
-        score = 0;
-    }
-    document.querySelector('#score').textContent = score;
-}
+};

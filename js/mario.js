@@ -65,7 +65,7 @@ var mario = {
             world.backgroundPosition = 0;
 
             goombas.reset();
-            scoreReset();
+            score.reset();
             mario.interval = setInterval(mario.heartBeat, 25);
         }, 250);
     },
@@ -127,9 +127,8 @@ var mario = {
             world.backgroundPosition -= 2;
         } else if (world.backgroundPosition == -3144) {
             document.querySelector(".victory").style.display = "block";
-            if (startTime > endTime) {
-                endTime = Date.now();
-                calculateScore();
+            if (score.hasGameEnded()) {
+                score.calculateScore();
             }
         }
     }, 

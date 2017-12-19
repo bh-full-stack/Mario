@@ -69,7 +69,7 @@ var goombas = {
         setTimeout( function () {
             document.querySelector("#goombas" + id).remove();
         }, 250);
-        gainPointsPerKill();
+        score.gainPointsPerKill();
     },
     reset: function () {
         clearInterval(goombas.interval);
