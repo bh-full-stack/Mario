@@ -36,4 +36,24 @@ window.onload = function () {
                 break;
         }
     };
+
+    document.querySelector(".modal-window__form").onsubmit = function(event) {
+        event.preventDefault();
+        var name = document.querySelector("#name").value;
+        localStorage.name = name;
+        modalWindow.showMessage(name);
+    };
+
+    document.querySelector("#new_game_button").onclick = function() {
+        modalWindow.hide();
+        mario.respawn();
+    };
+
+    document.querySelector("#clear_name_button").onclick = function() {
+        localStorage.removeItem("name");
+        modalWindow.showForm();
+    };
+    document.querySelector("#save_score_button").onclick = function() {
+        modalWindow.showScoreSaved(localStorage.name, score.points);
+    };
 };

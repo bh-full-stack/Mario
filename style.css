@@ -103,3 +103,72 @@ h1 {
     font-size: 12px;
     margin-top: 10px;
 }
+
+
+
+
+.modal-window {
+    font-family: monospace;
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 230px;
+    height: 190px;
+    position: absolute;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
+    color: white;
+    background: rgba(0,0,0,0.25);
+    border: 5px solid rgba(0,0,0,0.5);
+}
+
+.modal-window h1 {
+    font-size: 1.3em;
+}
+
+.modal-window__form {
+    display: none;
+    margin-top: 44px;
+}
+
+.modal-window__input {
+    box-sizing: border-box;
+    font-family: monospace;
+    display: block;
+    margin: 0 auto 0.5em;
+    width: 110px;
+    font-size: 11px;
+    border: 1px solid rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
+    text-shadow: 1px 1px 2px black;
+    color: white;
+}
+
+.modal-window__label {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.modal-window__message {
+    text-align: center;
+    font-size: 10px;
+}
+
+.modal-window__message p {
+    margin: 5px 0;
+    height: 30px;
+}
+
+.modal-window__score {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 1em;
+}
+
+.modal-window__thank-you-text, .modal-window__loader-text,
+.modal-window__saved-score-text, .modal-window__save-error-text,
+#new_game_button, #clear_name_button, #save_score_button {
+    display: none;
+}

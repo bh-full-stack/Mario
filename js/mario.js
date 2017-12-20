@@ -125,8 +125,8 @@ var mario = {
         if (mario.left > 176 && world.backgroundPosition > -3144) {
             mario.left = 176;
             world.backgroundPosition -= 2;
-        } else if (world.backgroundPosition == -3144) {
-            document.querySelector(".victory").style.display = "block";
+        } else if (world.backgroundPosition <= -3144) {
+            modalWindow.show(localStorage.name, score.points);
             if (score.hasGameEnded()) {
                 score.calculateScore();
             }
