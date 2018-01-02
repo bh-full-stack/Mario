@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bh-full-stack/Mario#readme",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "leaderboardsdk": "git+https://github.com/bh-full-stack/LeaderboardSDK.git"
   }
 }
