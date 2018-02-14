@@ -1,0 +1,13 @@
+version: "3"
+services:
+  mario:
+    build:
+      context: "./images/mario"
+      args:
+        - APP_HOST=${APP_HOST}
+        - API_HOST=${API_HOST}
+        - API_OUTER_PORT=${API_OUTER_PORT}
+    volumes:
+      - "../public:/var/www/html/"
+    ports:
+      - "${APP_OUTER_PORT}:80"
