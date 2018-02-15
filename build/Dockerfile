@@ -15,13 +15,13 @@ ENV API_OUTER_PORT ${API_OUTER_PORT}
 RUN apt-get update -y &&  \
     apt-get install -y nginx npm git-core
 
-ADD entrypoint.sh /usr/local/bin/entrypoint.sh
+ADD ./resources/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /var/www/html
 
-ADD ./etc /etc
+ADD ./resources/etc /etc
 
 RUN ln -s /etc/nginx/sites-available/mario /etc/nginx/sites-enabled/mario
 
