@@ -13,7 +13,7 @@ ARG API_OUTER_PORT
 ENV API_OUTER_PORT ${API_OUTER_PORT}
 
 RUN apt-get update -y &&  \
-    apt-get install -y nginx npm
+    apt-get install -y nginx npm git-core
 
 ADD entrypoint.sh /usr/local/bin/entrypoint.sh
 
