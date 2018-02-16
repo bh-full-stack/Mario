@@ -11,6 +11,7 @@ window.onload = function () {
         pathToPackage: "node_modules/leaderboardsdk",
         container: ".screen",
         game: "Mario",
+	env: "live",
         eventHandlers: {
             onClickNewGameBtn: mario.respawn
         }
