@@ -20,13 +20,13 @@ var mario = {
             mario.respawn();
             return;
         }
-        if (arrowLeft) {
+        if (arrowLeft && !mario.isDying) {
             mario.moveLeft();
         }
-        if (arrowRight) {
+        if (arrowRight && !mario.isDying) {
             mario.moveRight();
         }
-        if (arrowUp && !mario.isDead) {
+        if (arrowUp && !mario.isDying) {
             mario.jump();
         } else {
             mario.fall();
@@ -46,9 +46,9 @@ var mario = {
         } else if (arrowUp) {
             mario.domElement.className = mario.faceRight ? "mario--jump--right" : "mario--jump--left";
         } else if (mario.faceRight) {
-            mario.domElement.className = "mario--face--right";
+            mario.domElement.className =  mario.fallFlag ? "mario--jump--right" : "mario--face--right";
         } else {
-            mario.domElement.className = "mario--face--left";
+            mario.domElement.className = mario.fallFlag ? "mario--jump--left" : "mario--face--left";
         }
     },
     respawn: function () {
@@ -92,7 +92,7 @@ var mario = {
                     (mario.top + 16 >= goombas.yCoord[j]) &&
                     (mario.top <= goombas.yCoord[j] + goombas.height[j])
                 ) {
-                    if (!mario.jumpFlag && mario.fallFlag && (mario.top < 178)) {
+                    if (mario.fallFlag && (mario.top < 178)) {
                         goombas.die(j);
                     } else {
                         mario.isDead = true;
